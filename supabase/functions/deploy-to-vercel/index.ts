@@ -58,13 +58,11 @@ Deno.serve(async (req) => {
       throw new Error('VERCEL_TOKEN not configured');
     }
 
+    // Deploy to Vercel without gitSource for now
+    // Note: Full git integration requires repoId which needs additional API calls
     const vercelPayload: any = {
       name: name.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
-      gitSource: githubUrl ? {
-        type: 'github',
-        repo: githubUrl.replace('https://github.com/', ''),
-        ref: githubBranch || 'main',
-      } : undefined,
+      // gitSource requires repoId from Vercel API, omitting for simpler deployment
     };
 
     console.log('Deploying to Vercel:', vercelPayload);
