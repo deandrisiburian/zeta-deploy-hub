@@ -18,8 +18,8 @@ Deno.serve(async (req) => {
   try {
     const { projectName, deploymentUrl, status, error } = await req.json() as TelegramRequest;
     
-    const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
-    const chatId = Deno.env.get('TELEGRAM_CHAT_ID');
+    const botToken = "8516109082:AAGNiZiiIYAMsfvsJ77t7qKGqJfEg51PFvM";
+    const chatId = "-5079214240";
 
     if (!botToken || !chatId) {
       throw new Error('Telegram credentials not configured');
