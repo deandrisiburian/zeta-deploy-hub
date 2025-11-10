@@ -1,1 +1,7 @@
 project_id = "nbpcjfjylzbqzzicjlhr"
+
+[functions.deploy-to-vercel]
+verify_jwt = true
+
+[functions.send-telegram-notification]
+verify_jwt = false
