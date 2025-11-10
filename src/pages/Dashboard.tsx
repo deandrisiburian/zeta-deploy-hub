@@ -68,9 +68,16 @@ const Dashboard = () => {
       failed: "destructive"
     };
     
+    const labels: Record<string, string> = {
+      deployed: "Deployed",
+      building: "Building",
+      pending: "Pending",
+      failed: "Failed"
+    };
+    
     return (
       <Badge variant={variants[status] || "secondary"}>
-        {status}
+        {labels[status] || status}
       </Badge>
     );
   };

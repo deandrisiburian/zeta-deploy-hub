@@ -50,7 +50,7 @@ const NewProject = () => {
         name: projectName,
         github_url: githubUrl,
         github_branch: githubBranch,
-        status: "pending"
+        status: "building"
       })
       .select()
       .single();
@@ -61,8 +61,39 @@ const NewProject = () => {
       return;
     }
 
-    toast.success("Project created! Starting deployment...");
+    toast.success("Project created! Deploying to Vercel...");
+
+    // Call the deploy-to-vercel edge function
+    try {
+      const { error: deployError } = await supabase.functions.invoke('deploy-to-vercel', {
+        body: {
+          projectId: data.id,
+          name: projectName,
+          githubUrl,
+          githubBranch
+        }
+      });
+
+      if (deployError) {
+        toast.error("Deployment failed: " + deployError.message);
+        await supabase
+          .from("projects")
+          .update({ status: "failed" })
+          .eq("id", data.id);
+      } else {
+        toast.success("Deployment started successfully!");
+      }
+    } catch (err) {
+      console.error("Deployment error:", err);
+      toast.error("Failed to start deployment");
+      await supabase
+        .from("projects")
+        .update({ status: "failed" })
+        .eq("id", data.id);
+    }
+
     navigate(`/project/${data.id}`);
+    setLoading(false);
   };
 
   const createProjectFromFiles = async (e: React.FormEvent) => {
@@ -86,7 +117,7 @@ const NewProject = () => {
       .insert({
         user_id: user.id,
         name: projectName,
-        status: "pending"
+        status: "building"
       })
       .select()
       .single();
@@ -97,8 +128,37 @@ const NewProject = () => {
       return;
     }
 
-    toast.success("Project created! Uploading files...");
+    toast.success("Project created! Deploying to Vercel...");
+
+    // Call the deploy-to-vercel edge function
+    try {
+      const { error: deployError } = await supabase.functions.invoke('deploy-to-vercel', {
+        body: {
+          projectId: data.id,
+          name: projectName
+        }
+      });
+
+      if (deployError) {
+        toast.error("Deployment failed: " + deployError.message);
+        await supabase
+          .from("projects")
+          .update({ status: "failed" })
+          .eq("id", data.id);
+      } else {
+        toast.success("Deployment started successfully!");
+      }
+    } catch (err) {
+      console.error("Deployment error:", err);
+      toast.error("Failed to start deployment");
+      await supabase
+        .from("projects")
+        .update({ status: "failed" })
+        .eq("id", data.id);
+    }
+
     navigate(`/project/${data.id}`);
+    setLoading(false);
   };
 
   return (
