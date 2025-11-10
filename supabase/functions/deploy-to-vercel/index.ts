@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
     console.log('Created deployment record:', deployment.id);
 
     // Deploy to Vercel
-    const vercelToken = Deno.env.get('VERCEL_TOKEN');
+    const vercelToken = "zjznYB6XnvJDrIZUd2aVqL84";
     if (!vercelToken) {
       throw new Error('VERCEL_TOKEN not configured');
     }
