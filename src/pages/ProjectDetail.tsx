@@ -125,7 +125,7 @@ const ProjectDetail = () => {
     );
   }
 
-  const deploymentUrl = project?.deployment_url || `https://${project?.name}.zhost.app`;
+  const deploymentUrl = project?.deployment_url || `https://${project?.name}.vercel.app`;
 
   return (
     <div className="min-h-screen">
